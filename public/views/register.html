@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+</head>
+
+<body>
+
+	<h1>Register</h1>
+
+	<form>
+		<label for="full_name">Name</label>
+		<input type="text" id="name" ng-model="vm.fullName">
+		<br>
+		
+		<label for="emailAddress">Email Address</label>
+		<input type="email" id="emailAddress" ng-model="vm.emailAddress">
+		<br>
+		
+		<label for="password">Password</label>
+		<input type="password" id="password" ng-model="vm.password">
+		<br>
+		
+		<label for="confirmPassword">Confirm Password</label>
+		<input type="password" id="confirmPassword" ng-model="vm.confirmPassword">
+		<br>
+		
+		<button class="button" ng-click="vm.register()">Register</button>
+		
+		<a href="#/login">Login</a>
+    </form>
+  </div>
+  
+</body>
+</html>
