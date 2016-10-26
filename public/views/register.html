@@ -7,10 +7,10 @@
 <body>
 
 	<h1>Register</h1>
-
+	
 	<form>
-		<label for="full_name">Name</label>
-		<input type="text" id="name" ng-model="vm.fullName">
+		<label for="name">Name</label>
+		<input type="text" id="name" ng-model="vm.name">
 		<br>
 		
 		<label for="emailAddress">Email Address</label>
@@ -25,7 +25,7 @@
 		<input type="password" id="confirmPassword" ng-model="vm.confirmPassword">
 		<br>
 		
-		<button class="button" ng-click="vm.register()">Register</button>
+		<button class="button" ng-click="vm.postNewUser()">Register</button>
 		
 		<a href="#/login">Login</a>
     </form>

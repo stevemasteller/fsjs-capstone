@@ -8,6 +8,7 @@
 		.config(config);
 
 	function config($routeProvider) {
+		console.log('reached route-config');
 		$routeProvider
 		.when('/', {
 			controller: '',
@@ -18,6 +19,11 @@
 			controller: 'registerCtrl',
 			controllerAs: 'vm',
 			templateUrl: 'views/register.html'
+		})
+		.when('/main.html', {
+			controller: '',
+			controllerAs: 'vm',
+			templateUrl: 'views/main.html'
 		});
 	}
 })();

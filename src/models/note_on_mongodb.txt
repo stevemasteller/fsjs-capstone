@@ -1,0 +1,6 @@
+Start daemon with in the fsjs-capstone directory
+
+"C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe"
+
+mongo shell
+"C:\Program Files\MongoDB\Server\3.2\bin\mongo"
