@@ -104,7 +104,7 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 	uiGmapGoogleMapApi.then(function(maps) {
 
 		vm.onClick = function (marker, eventName, model) {
-			console.log('clicked marker :' + marker.id);
+			console.log('clicked model :' + JSON.stringify(model));
 		};
 	});
 
