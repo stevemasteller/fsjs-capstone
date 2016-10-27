@@ -21,8 +21,8 @@
 			templateUrl: 'views/register.html'
 		})
 		.when('/main.html', {
-			controller: '',
-			controllerAs: '',
+			controller: 'mainCtrl',
+			controllerAs: 'vm',
 			templateUrl: 'views/main.html'
 		});
 	}

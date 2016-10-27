@@ -10,6 +10,7 @@ var seedData = require('./src/data/data.json');	// database initialization data
 
 // routes
 var users = require('./src/routes/users');
+var place = require('./src/routes/place');
 
 var app = express();
 
@@ -18,6 +19,7 @@ var app = express();
 /*********************************/
 // mongoose models
 require("./src//models/user-model");
+require("./src//models/place-model");
 
 // sets up a database connection
 mongoose.connect('mongodb://localhost:27017/db');
@@ -72,6 +74,7 @@ app.get('/vendor/angular-google-maps.js', function(req, res) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/users', users);
+app.use('/api/place', place);
 
 
 /*********************************/
