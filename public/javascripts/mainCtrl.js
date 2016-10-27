@@ -7,8 +7,7 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 	
 	var mapEvents = {
 		bounds_changed: function (arg) {
-			console.log(arg.getBounds());
-			vm.searchbox.options.bounds = arg.getBounds();
+				vm.searchbox.options.bounds = arg.getBounds();
 		}
 	};
 	
@@ -21,6 +20,10 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 		"events": mapEvents
 	}; //TODO:  set location based on users current gps location 
 
+	vm.options = {
+		"clickableIcons": true
+	}
+	
 	vm.marker = {
 		id: 0,
 		coords: {
@@ -34,8 +37,8 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 //	}
 	
 	var searchboxEvents = {
-		places_changed: function (searchBox) {
-			var place = searchBox.getPlaces();
+		places_changed: function (arg) {
+			var place = arg.getPlaces();
 			if (!place || place == 'undefined' || place.length == 0) {
 				console.log('no place data :(');
 				return;
@@ -59,7 +62,7 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 		},
 	};
 
-	vm.searchbox = { template: 'searchbox.tpl.html', events: searchboxEvents };
+	vm.searchbox = { template: 'searchbox.tpl.html', events: searchboxEvents, options: {} };
 
 	vm.postHome = function() {
 		console.log('reached mainCtrl putHome');
@@ -98,14 +101,12 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 		});
 	};
 	
-	vm.onClicked = function () {
-		
-	};
+	uiGmapGoogleMapApi.then(function(maps) {
 
-    // uiGmapGoogleMapApi is a promise.
-    // The "then" callback function provides the google.maps object.
-    uiGmapGoogleMapApi.then(function(maps) {
-    });
+		vm.onClick = function (marker, eventName, model) {
+			console.log('clicked marker :' + marker.id);
+		};
+	});
 
 }]);
 

@@ -24,9 +24,13 @@
 				<ui-gmap-marker coords="vm.marker.coords" options="vm.marker.options" events="vm.marker.events" idkey="vm.marker.id">
 				</ui-gmap-marker>
 				
-				<ui-gmap-markers models="vm.markers" coords="'self'" icon="'icon'" click="'onClicked'" fit="true">
+				<ui-gmap-markers models="vm.markers" coords="'self'" icon="'icon'" click="vm.onClick(marker)" events="markers.events" fit="true">
 				</ui-gmap-markers>
-
+				
+					<ui-gmap-windows show="show" >
+                        <div ng-non-bindable>{{dato}}</div> 
+                    </ui-gmap-windows>
+ 
 		    </ui-gmap-google-map>
 		</div>
 	
