@@ -22,7 +22,7 @@
 		})
 		.when('/main.html', {
 			controller: '',
-			controllerAs: 'vm',
+			controllerAs: '',
 			templateUrl: 'views/main.html'
 		});
 	}

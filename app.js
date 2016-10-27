@@ -54,11 +54,20 @@ app.use(morgan('dev'));
 app.use(jsonParser());
 
 // vendor scripts
+app.get('/vendor/lodash.js', function(req, res) {
+  res.sendFile(path.join(__dirname, 'node_modules', 'lodash', 'lodash.js'));
+});
 app.get('/vendor/angular.js', function(req, res) {
   res.sendFile(path.join(__dirname, 'node_modules', 'angular', 'angular.js'));
 });
 app.get('/vendor/angular-route.js', function(req, res) {
   res.sendFile(path.join(__dirname, 'node_modules', 'angular-route', 'angular-route.js'));
+});
+app.get('/vendor/angular-simple-logger.js', function(req, res) {
+  res.sendFile(path.join(__dirname, 'node_modules', 'angular-simple-logger', 'dist', 'angular-simple-logger.min.js'));
+});
+app.get('/vendor/angular-google-maps.js', function(req, res) {
+  res.sendFile(path.join(__dirname, 'node_modules', 'angular-google-maps', 'dist', 'angular-google-maps.min.js'));
 });
 
 app.use(express.static(path.join(__dirname, 'public')));

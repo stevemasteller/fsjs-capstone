@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.5.8",
+    "angular-google-maps": "^2.4.0",
     "angular-route": "^1.5.8",
     "basic-auth": "^1.0.4",
     "bcryptjs": "^2.3.0",
