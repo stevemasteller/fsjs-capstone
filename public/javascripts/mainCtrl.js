@@ -1,16 +1,24 @@
 (function() {
 'use strict';
 
-angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMapApi', "dataServicePlace", function ($scope, $log, GoogleMapApi, dataServicePlace) {
+angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMapApi', "dataServicePlace", function ($scope, $log, uiGmapGoogleMapApi, dataServicePlace) {
 	
 	var vm = this;
+	
+	var mapEvents = {
+		bounds_changed: function (arg) {
+			console.log(arg.getBounds());
+			vm.searchbox.options.bounds = arg.getBounds();
+		}
+	};
 	
 	vm.map = {
 		"center": {
 			"latitude": 40.1451,
 			"longitude": -99.6680
 		},
-		"zoom": 4
+		"zoom": 4,
+		"events": mapEvents
 	}; //TODO:  set location based on users current gps location 
 
 	vm.marker = {
@@ -20,8 +28,12 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 			longitude: -99.6680
 		}
 	};
-
-	var events = {
+	
+//	function vm.searchbox.setbounds (bounds) {
+//		vm.searchbox.bounds = bounds;
+//	}
+	
+	var searchboxEvents = {
 		places_changed: function (searchBox) {
 			var place = searchBox.getPlaces();
 			if (!place || place == 'undefined' || place.length == 0) {
@@ -44,10 +56,10 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 					longitude: place[0].geometry.location.lng()
 				}
 			};
-		}
+		},
 	};
 
-	vm.searchbox = { template: 'searchbox.tpl.html', events: events };
+	vm.searchbox = { template: 'searchbox.tpl.html', events: searchboxEvents };
 
 	vm.postHome = function() {
 		console.log('reached mainCtrl putHome');
@@ -85,7 +97,15 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 			vm.errorMessages = error.data.errors;
 		});
 	};
+	
+	vm.onClicked = function () {
+		
+	};
 
+    // uiGmapGoogleMapApi is a promise.
+    // The "then" callback function provides the google.maps object.
+    uiGmapGoogleMapApi.then(function(maps) {
+    });
 
 }]);
 

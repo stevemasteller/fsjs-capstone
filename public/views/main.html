@@ -18,13 +18,13 @@
 		
 			<ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.options" events="vm.map.events">
 
-		        <ui-gmap-search-box template="vm.searchbox.template" events="vm.searchbox.events">
+		        <ui-gmap-search-box template="vm.searchbox.template" options="vm.searchbox.options" events="vm.searchbox.events">
 				</ui-gmap-search-box>
 				
 				<ui-gmap-marker coords="vm.marker.coords" options="vm.marker.options" events="vm.marker.events" idkey="vm.marker.id">
 				</ui-gmap-marker>
 				
-				<ui-gmap-markers models="vm.markers" coords="'self'" icon="'icon'">
+				<ui-gmap-markers models="vm.markers" coords="'self'" icon="'icon'" click="'onClicked'" fit="true">
 				</ui-gmap-markers>
 
 		    </ui-gmap-google-map>
