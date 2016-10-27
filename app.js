@@ -2,7 +2,7 @@
 
 var express  = require('express');
 var path     = require('path');
-var jsonParser = require("body-parser").json;	
+var bodyParser = require("body-parser");	
 var morgan = require('morgan');					// for logging http activity to console
 var mongoose = require('mongoose');
 var seeder   = require('mongoose-seeder');		// for loading database at startup
@@ -53,7 +53,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 // morgan gives us http request logging
 app.use(morgan('dev'));
-app.use(jsonParser());
+app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // vendor scripts
 app.get('/vendor/lodash.js', function(req, res) {

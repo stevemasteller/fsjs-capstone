@@ -28,11 +28,14 @@ router.get("/", function(req, res, next) {
 			return next(createError(404, "No places found"));
 		} else {
 		
+			console.log('reached /api/place/get');
+			
 			// format data for output
 			var body = {};
-			body.data = places;
+			body = places;
 			res.json(body);
 		}
+	});
 });
 
 // Places a marker and returns no content.

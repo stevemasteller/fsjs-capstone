@@ -4,3 +4,5 @@ Start daemon with in the fsjs-capstone directory
 
 mongo shell
 "C:\Program Files\MongoDB\Server\3.2\bin\mongo"
+
+google maps api key: AIzaSyA093hUHMNfOZrtRIFcyWBLJvQESyQUP18 

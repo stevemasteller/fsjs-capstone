@@ -59,6 +59,33 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 		});
 	};
 
+	vm.markers = [];
+	vm.getPlaces = function() {
+		console.log('reached mainCtrl getAll');
+		dataServicePlace.getAll( function(res) {
+			
+			console.log('reached getAll response: ' + JSON.stringify(res));
+			var data = res.data;
+			console.log(data);
+			var marker;
+			for (var i = 0; i < data.length; i++) {
+				marker = {
+					id: data[i]._id,
+					latitude: data[i].latitude,
+					longitude: data[i].longitude
+				};
+
+				console.log("marker: " + marker);
+				vm.markers.push(marker);
+			}
+				
+		}, function(error) {
+			console.log('error on getPlaces response');
+			vm.failure = true;
+			vm.errorMessages = error.data.errors;
+		});
+	};
+
 
 }]);
 
