@@ -17,7 +17,8 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 			"longitude": -99.6680
 		},
 		"zoom": 4,
-		"events": mapEvents
+		"events": mapEvents,
+		"refresh": {}
 	}; //TODO:  set location based on users current gps location 
 
 	vm.options = {
@@ -29,6 +30,9 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 		coords: {
 			latitude: 40.1451,
 			longitude: -99.6680
+		},
+		options: {
+			animation: null
 		}
 	};
 	
@@ -57,6 +61,9 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 				coords: {
 					latitude: place[0].geometry.location.lat(),
 					longitude: place[0].geometry.location.lng()
+				},
+				options: {
+					animation: null
 				}
 			};
 		},
@@ -87,7 +94,10 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 				marker = {
 					id: data[i]._id,
 					latitude: data[i].latitude,
-					longitude: data[i].longitude
+					longitude: data[i].longitude,
+					options: {
+						animation: 1
+					}
 				};
 
 				console.log("marker: " + marker);
@@ -105,9 +115,32 @@ angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMap
 
 		vm.onClick = function (marker, eventName, model) {
 			console.log('clicked model :' + JSON.stringify(model));
+			
+			if(marker.options.animation !== null) {
+				marker.options.animation = null;
+			} else {
+				marker.options.animation = 1;
+			}
+//			if(marker.getAnimation() !== null) {
+//				marker.setAnimation(null);
+//			} else {
+//				marker.setAnimation(google.maps.Animation.BOUNCE);
+//			}
+//				console.log("marker animation: " + JSON.stringify(model));
 		};
-	});
+		
+//		vm.$on('mapInitialized', function(event, eventMap) {
+//			map = eventMap;
+//
+//			var mapMarker =  map.markers[0];
+//			mapMarker.setAnimation(null);
+//			marker = mapMarker;
+//		});
 
+//		$timeout(function(){
+//			vm.map.control.refresh(vm.map.center);
+//		},2000)		
+	});
 }]);
 
 })();
