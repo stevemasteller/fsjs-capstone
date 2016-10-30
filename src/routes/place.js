@@ -47,7 +47,7 @@ router.post("/home", function(req, res, next) {
 	
 	// save the new place
 	place.save( function(err) {
-		console.log('save home');
+		console.log('save place: ' + place);
 		if (err) return next(err);
 
 		// return response

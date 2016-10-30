@@ -6,3 +6,42 @@ mongo shell
 "C:\Program Files\MongoDB\Server\3.2\bin\mongo"
 
 google maps api key: AIzaSyA093hUHMNfOZrtRIFcyWBLJvQESyQUP18 
+
+Marker JSON
+
+{
+	"position":
+	{
+		"lat":39.52516989999999,
+		"lng":-104.76675290000003
+	},
+	"title":"Pizza Hut",
+	"icon":
+	{
+		"url":"https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+		"size":
+		{
+			"width":71,
+			"height":71,
+			"j":"px",
+			"f":"px"
+		},
+		"origin":
+		{
+			"x":0,
+			"y":0
+		},
+		"anchor":
+		{
+			"x":17,
+			"y":34
+		},
+		"scaledSize":
+		{
+			"width":25,
+			"height":25,
+			"j":"px",
+			"f":"px"
+		}
+	}
+}

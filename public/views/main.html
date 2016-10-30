@@ -1,42 +1,28 @@
-<!DOCTYPE html>
-<html>
 <head>
-  <title>Business Locator</title>
-  <link rel="stylesheet" href="../css/styles.css">
+	<title>Business Locator</title>
+	<link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
-  <h1>Business Locator</h1>
-  <p>Welcome to the Main Page</p>
+	<h1>Business Locator</h1>
+	<p>Welcome to the Main Page</p>
   
 	<div>
-		<div id="map_canvas">
+    	<input 
+			id="searchbox-input" 
+			class="controls" 
+			type="text" 
+			placeholder="Search">
+			
+		<div id="map-canvas">
 
-		    <script id="searchbox.tpl.html" type="text/ng-template">
-		      <input type="text" placeholder="Search">
-		    </script>
-		
-			<ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" draggable="true" options="vm.options" events="vm.map.events">
-
-		        <ui-gmap-search-box template="vm.searchbox.template" options="vm.searchbox.options" events="vm.searchbox.events">
-				</ui-gmap-search-box>
-				
-				<ui-gmap-marker coords="vm.marker.coords" options="vm.marker.options" events="vm.marker.events" idkey="vm.marker.id">
-				</ui-gmap-marker>
-				
-				<ui-gmap-markers models="vm.markers" coords="'self'" icon="'icon'" click="vm.onClick" events="markers.events" fit="true">
-				</ui-gmap-markers>
-				
-					<ui-gmap-windows show="show" >
-                        <div ng-non-bindable>{{dato}}</div> 
-                    </ui-gmap-windows>
- 
-		    </ui-gmap-google-map>
-		</div>
+			<ng-map 
+				center="[40, -100]" 
+				zoom="4" 
+				map-initialized="initMap()">	
+			</ng-map>
+ 		</div>
 	
 		<button class="button" ng-click="vm.postHome()">Set Home</button>
 		<button class="button" ng-click="vm.getPlaces()">Get Places</button>
 	</div>
-
-</body>
-</html>

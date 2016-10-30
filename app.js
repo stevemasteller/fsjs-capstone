@@ -66,11 +66,8 @@ app.get('/vendor/angular.js', function(req, res) {
 app.get('/vendor/angular-route.js', function(req, res) {
   res.sendFile(path.join(__dirname, 'node_modules', 'angular-route', 'angular-route.js'));
 });
-app.get('/vendor/angular-simple-logger.js', function(req, res) {
-  res.sendFile(path.join(__dirname, 'node_modules', 'angular-simple-logger', 'dist', 'angular-simple-logger.min.js'));
-});
-app.get('/vendor/angular-google-maps.js', function(req, res) {
-  res.sendFile(path.join(__dirname, 'node_modules', 'angular-google-maps', 'dist', 'angular-google-maps.min.js'));
+app.get('/vendor/ng-map.min.js', function(req, res) {
+  res.sendFile(path.join(__dirname, 'node_modules', 'ngmap', 'build', 'scripts', 'ng-map.min.js'));
 });
 
 app.use(express.static(path.join(__dirname, 'public')));

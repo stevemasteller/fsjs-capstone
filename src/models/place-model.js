@@ -7,11 +7,21 @@ var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 var PlaceSchema = new Schema ({
-	latitude: {
-		type: Number
+	position: {
+		lat: {
+			type: Number
+		},
+		lng: {
+			type: Number
+		}
 	},
-	longitude: {
-		type: Number
+	title: {
+		type: String
+	},
+	icon: {
+		url: {
+			type: String
+		}
 	}
 });
 

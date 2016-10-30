@@ -1,146 +1,199 @@
 (function() {
 'use strict';
 
-angular.module('app').controller('mainCtrl', ['$scope', '$log', 'uiGmapGoogleMapApi', "dataServicePlace", function ($scope, $log, uiGmapGoogleMapApi, dataServicePlace) {
+angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) {
 	
 	var vm = this;
+	var markers = [];
+	var selectedMarker = {};
 	
-	var mapEvents = {
-		bounds_changed: function (arg) {
-				vm.searchbox.options.bounds = arg.getBounds();
-		}
-	};
-	
-	vm.map = {
-		"center": {
-			"latitude": 40.1451,
-			"longitude": -99.6680
-		},
-		"zoom": 4,
-		"events": mapEvents,
-		"refresh": {}
-	}; //TODO:  set location based on users current gps location 
+	console.log('reached mainCtrl');
 
-	vm.options = {
-		"clickableIcons": true
-	}
-	
-	vm.marker = {
-		id: 0,
-		coords: {
-			latitude: 40.1451,
-			longitude: -99.6680
-		},
-		options: {
-			animation: null
-		}
-	};
-	
-//	function vm.searchbox.setbounds (bounds) {
-//		vm.searchbox.bounds = bounds;
-//	}
-	
-	var searchboxEvents = {
-		places_changed: function (arg) {
-			var place = arg.getPlaces();
-			if (!place || place == 'undefined' || place.length == 0) {
-				console.log('no place data :(');
-				return;
-			}
 
-			vm.map = {
-				"center": {
-					"latitude": place[0].geometry.location.lat(),
-					"longitude": place[0].geometry.location.lng()
-				},
-				"zoom": 18
-			};
+	vm.getPlaces = function() {
+		NgMap.getMap().then( function(map) {
 			
-			vm.marker = {
-				id: 0,
-				coords: {
-					latitude: place[0].geometry.location.lat(),
-					longitude: place[0].geometry.location.lng()
-				},
-				options: {
-					animation: null
+			console.log('reached mainCtrl getAll');
+			dataServicePlace.getAll( function(res) {
+				
+				clearMarkers();
+				
+				console.log('reached getAll response: ' + JSON.stringify(res));
+				var data = res.data;
+				
+				// For each marker, get the icon, name and location.
+				var bounds = new google.maps.LatLngBounds();
+				var marker;
+				
+				for (var i = 0; i < data.length; i++) {
+					
+					var icon = {
+						url: data[i].icon.url,
+						size: new google.maps.Size(71, 71),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(17, 34),
+						scaledSize: new google.maps.Size(25, 25)
+					};
+					
+					marker = new google.maps.Marker({
+						map: map,
+						icon: icon,
+						title: data[i].title,
+						animation: null,
+						position: data[i].position
+					}); 
+					
+					markers.push(marker);
+					console.log('position: ' + data.position);
+					bounds.extend(data[i].position);
+					
+					// Add a listener to toggle bounce
+					marker.addListener('click', function() {
+						
+						// Select marker, deselect all others.
+						clearBounce();
+						this.setAnimation(google.maps.Animation.BOUNCE);
+						
+						// currently selected marker
+						selectedMarker.position  = this.getPosition();
+						selectedMarker.title = this.getTitle();
+						selectedMarker.icon = this.getIcon();
+					});
 				}
-			};
-		},
+				
+				map.fitBounds(bounds);
+			});
+		});
 	};
-
-	vm.searchbox = { template: 'searchbox.tpl.html', events: searchboxEvents, options: {} };
-
+		
 	vm.postHome = function() {
-		console.log('reached mainCtrl putHome');
-		dataServicePlace.postHome(vm.marker.coords, function(res) {
+		console.log('reached mainCtrl postHome');
+		console.log('selectedMarker: ' + JSON.stringify(selectedMarker));
+		dataServicePlace.postHome(selectedMarker, function(res) {
 //			$location.path('/main.html');
 		}, function(error) {
 			vm.failure = true;
 			vm.errorMessages = error.data.errors;
 		});
 	};
-
-	vm.markers = [];
-	vm.getPlaces = function() {
-		console.log('reached mainCtrl getAll');
-		dataServicePlace.getAll( function(res) {
 			
-			console.log('reached getAll response: ' + JSON.stringify(res));
-			var data = res.data;
-			console.log(data);
-			var marker;
-			for (var i = 0; i < data.length; i++) {
-				marker = {
-					id: data[i]._id,
-					latitude: data[i].latitude,
-					longitude: data[i].longitude,
-					options: {
-						animation: 1
-					}
-				};
+	// Mark searchResults places
+	function searchResults(results, status) {
 
-				console.log("marker: " + marker);
-				vm.markers.push(marker);
+		if (status === google.maps.places.PlacesServiceStatus.OK) {
+			for (var i = 0; i < results.length; i++) {
+				createMarker(results[i]);
 			}
-				
-		}, function(error) {
-			console.log('error on getPlaces response');
-			vm.failure = true;
-			vm.errorMessages = error.data.errors;
+		}
+	};
+
+	// Create a Marker
+	function createMarker(place) {
+		var marker = new google.maps.Marker();
+	};
+
+	// Clear bouncing marker
+	function clearBounce() {
+		
+		selectedMarker = {};
+		
+		markers.forEach(function(marker) {
+			if (marker.getAnimation() !== null) {
+				marker.setAnimation(null);
+			} 
 		});
 	};
 	
-	uiGmapGoogleMapApi.then(function(maps) {
-
-		vm.onClick = function (marker, eventName, model) {
-			console.log('clicked model :' + JSON.stringify(model));
-			
-			if(marker.options.animation !== null) {
-				marker.options.animation = null;
-			} else {
-				marker.options.animation = 1;
-			}
-//			if(marker.getAnimation() !== null) {
-//				marker.setAnimation(null);
-//			} else {
-//				marker.setAnimation(google.maps.Animation.BOUNCE);
-//			}
-//				console.log("marker animation: " + JSON.stringify(model));
-		};
+	// Clear out the old markers.
+	function clearMarkers() {
+		var marker;
 		
-//		vm.$on('mapInitialized', function(event, eventMap) {
-//			map = eventMap;
-//
-//			var mapMarker =  map.markers[0];
-//			mapMarker.setAnimation(null);
-//			marker = mapMarker;
-//		});
+		markers.forEach(function(marker) {
+			marker.setMap(null);
+		});
+		markers = [];
+	};
 
-//		$timeout(function(){
-//			vm.map.control.refresh(vm.map.center);
-//		},2000)		
+	NgMap.getMap().then( function(map) {
+
+		console.log('reached NgMap');
+		
+		// Create the search box and link it to the UI element.
+		var input = document.getElementById('searchbox-input');
+		var searchBox = new google.maps.places.SearchBox(input);
+		map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+		
+		// Bias the SearchBox results towards current map's viewport.
+		map.addListener('bounds_changed', function() {
+			searchBox.setBounds(map.getBounds());
+		});
+
+		// Listen for the event fired when the user selects a prediction and retrieve
+		// more details for that place.
+		searchBox.addListener('places_changed', function() {
+			var places = searchBox.getPlaces();
+
+			if (places.length == 0) {
+				return;
+			}
+	         
+			// Clear out the old markers
+			clearMarkers();
+
+			// For each place, get the icon, name and location.
+			var bounds = new google.maps.LatLngBounds();
+			
+			places.forEach(function(place) {
+				
+				if (!place.geometry) {
+					console.log("Returned place contains no geometry");
+					return;
+				}
+
+				var icon = {
+					url: place.icon,
+					size: new google.maps.Size(71, 71),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(17, 34),
+					scaledSize: new google.maps.Size(25, 25)
+				};
+
+				var marker = new google.maps.Marker({
+					map: map,
+					icon: icon,
+					title: place.name,
+					animation: null,
+					position: place.geometry.location
+				}); 
+				
+				// Create a marker for each place.
+				markers.push(marker);
+				
+				// Add a listener to toggle bounce
+				marker.addListener('click', function() {
+					
+					// Select marker, deselect all others.
+					clearBounce();
+					this.setAnimation(google.maps.Animation.BOUNCE);
+					
+					// currently selected marker
+					selectedMarker.position  = this.getPosition();
+					selectedMarker.title = this.getTitle();
+					selectedMarker.icon = this.getIcon();
+				});
+		
+				if (place.geometry.viewport) {
+					
+					// Only geocodes have viewport.
+					bounds.union(place.geometry.viewport);
+				} else {
+					bounds.extend(place.geometry.location);
+				}
+			});
+			
+			map.fitBounds(bounds);
+		});
 	});
-}]);
 
+});
 })();
