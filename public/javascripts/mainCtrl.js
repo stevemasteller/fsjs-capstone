@@ -7,13 +7,9 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 	var markers = [];
 	var selectedMarker = {};
 	
-	console.log('reached mainCtrl');
-
-
-	vm.getPlaces = function() {
+	vm.getAll = function() {
 		NgMap.getMap().then( function(map) {
 			
-			console.log('reached mainCtrl getAll');
 			dataServicePlace.getAll( function(res) {
 				
 				clearMarkers();
@@ -55,6 +51,8 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 						this.setAnimation(google.maps.Animation.BOUNCE);
 						
 						// currently selected marker
+						selectedMarker._id = this._id;
+						console.log("getall marker: " + selectedMarker._id);
 						selectedMarker.position  = this.getPosition();
 						selectedMarker.title = this.getTitle();
 						selectedMarker.icon = this.getIcon();
@@ -66,11 +64,22 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 		});
 	};
 		
-	vm.postHome = function() {
-		console.log('reached mainCtrl postHome');
-		console.log('selectedMarker: ' + JSON.stringify(selectedMarker));
-		dataServicePlace.postHome(selectedMarker, function(res) {
-//			$location.path('/main.html');
+	vm.postPlace = function() {
+		console.log("post place : " + selectedMarker);
+		
+		dataServicePlace.postPlace(selectedMarker, function(res) {
+
+		}, function(error) {
+			vm.failure = true;
+			vm.errorMessages = error.data.errors;
+		});
+	};
+			
+	vm.deletePlace = function() {
+		console.log('reached MainCtrl deletePlace');
+		console.log("post place : " + selectedMarker);
+		
+		dataServicePlace.deletePlace(selectedMarker, function(res) {
 		}, function(error) {
 			vm.failure = true;
 			vm.errorMessages = error.data.errors;
@@ -116,8 +125,6 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 
 	NgMap.getMap().then( function(map) {
 
-		console.log('reached NgMap');
-		
 		// Create the search box and link it to the UI element.
 		var input = document.getElementById('searchbox-input');
 		var searchBox = new google.maps.places.SearchBox(input);
@@ -177,6 +184,8 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 					this.setAnimation(google.maps.Animation.BOUNCE);
 					
 					// currently selected marker
+					selectedMarker._id = this._id;
+					console.log("save marker: " + selectedMarker._id);
 					selectedMarker.position  = this.getPosition();
 					selectedMarker.title = this.getTitle();
 					selectedMarker.icon = this.getIcon();

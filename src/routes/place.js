@@ -39,8 +39,7 @@ router.get("/", function(req, res, next) {
 });
 
 // Places a marker and returns no content.
-router.post("/home", function(req, res, next) {
-	console.log('reached api/place/home');	
+router.post("/", function(req, res, next) {
 	
 	// create a new place
 	var place = new Place(req.body);
@@ -56,6 +55,40 @@ router.post("/home", function(req, res, next) {
 	});
 });
 
+// Deletes a marker and returns no content
+router.put("/", function(req, res, next) {
+	console.log('reached api/delete');	
+	
+	// create a new place
+	var selectedPlace = new Place(req.body);
+	
+	console.log('delete place: ' + selectedPlace);
+	var lat = selectedPlace.position.lat;
+	var lng = selectedPlace.position.lng;
+	
+	// find the marker to be deleted.
+	Place.findOne({"position": {"lat": lat, "lng": lng}}, function (err, place) {
+		
+		if (err) return next(err);
+		
+		if (!place) {
+			return next(createError(404, "Place not found"));
+		} else {				
+		
+			// everything good remove the place
+			Place.findOne({"position": {"lat": lat, "lng": lng}})
+			.remove()
+			.exec( function (err) {
+				
+				if (err) return next(err);
+			});
+			
+			// send response
+			res.status(204);
+			res.end();		
+		}
+	});
+});
 
 /************************************************************/
 /** Export routes
