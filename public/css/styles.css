@@ -2,3 +2,11 @@
   height: 400px; 
 }
 
+#save-place {
+	display: none;
+}
+
+#delete-place {
+	display: none;
+}
+

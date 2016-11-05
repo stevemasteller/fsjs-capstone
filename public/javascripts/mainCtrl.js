@@ -7,6 +7,30 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 	var markers = [];
 	var selectedMarker = {};
 	
+	// Hide unusable buttons
+	function hideButtons() {
+
+		var savePlace = document.getElementById("save-place");
+		var deletePlace = document.getElementById("delete-place");
+		
+		savePlace.style.display = "none"
+		deletePlace.style.display = "none"
+	};
+	
+	function displaySaveButton() {
+
+		var savePlace = document.getElementById("save-place");
+		
+		savePlace.style.display = "inline-block";
+	};
+	
+	function displayDeleteButton() {
+
+		var deletePlace = document.getElementById("delete-place");
+		
+		deletePlace.style.display = "inline-block";
+	};
+	
 	vm.getAll = function() {
 		NgMap.getMap().then( function(map) {
 			
@@ -49,10 +73,9 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 						// Select marker, deselect all others.
 						clearBounce();
 						this.setAnimation(google.maps.Animation.BOUNCE);
+						displayDeleteButton();
 						
 						// currently selected marker
-						selectedMarker._id = this._id;
-						console.log("getall marker: " + selectedMarker._id);
 						selectedMarker.position  = this.getPosition();
 						selectedMarker.title = this.getTitle();
 						selectedMarker.icon = this.getIcon();
@@ -60,6 +83,9 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 				}
 				
 				map.fitBounds(bounds);
+				
+				// hide unusable buttons
+				hideButtons();
 			});
 		});
 	};
@@ -68,7 +94,7 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 		console.log("post place : " + selectedMarker);
 		
 		dataServicePlace.postPlace(selectedMarker, function(res) {
-
+			hideButtons();
 		}, function(error) {
 			vm.failure = true;
 			vm.errorMessages = error.data.errors;
@@ -80,6 +106,7 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 		console.log("post place : " + selectedMarker);
 		
 		dataServicePlace.deletePlace(selectedMarker, function(res) {
+			vm.getAll();
 		}, function(error) {
 			vm.failure = true;
 			vm.errorMessages = error.data.errors;
@@ -182,10 +209,9 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 					// Select marker, deselect all others.
 					clearBounce();
 					this.setAnimation(google.maps.Animation.BOUNCE);
+					displaySaveButton();
 					
 					// currently selected marker
-					selectedMarker._id = this._id;
-					console.log("save marker: " + selectedMarker._id);
 					selectedMarker.position  = this.getPosition();
 					selectedMarker.title = this.getTitle();
 					selectedMarker.icon = this.getIcon();
@@ -201,6 +227,9 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 			});
 			
 			map.fitBounds(bounds);
+			
+			// hide unusable buttons
+			hideButtons();
 		});
 	});
 
