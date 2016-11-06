@@ -27,6 +27,7 @@ angular.module('app').service('dataServiceYelp', function($http) {
 	
 	vm.getYelpAccessToken = function(callback, err) {
 		console.log('reached dataServiceYelp getYelpAccessToken');
+		$http.defaults.useXDomain = true;
 		
 		$http({method: 'GET', url: '//api.yelp.com/v3/autocomplete?text=del&latitude=37.786882&longitude=-122.399972', withCredentials: true, headers: {'Authorization': 'Bearer Xn6rcZrQTdEmV5JFNsTcnot78sESXc7P0-tbBFID8filvrfm49eXACastEejl1avhdE_SgVW0sgosL3gtGF-kMMoGgiiNoBnI0rj7CfPuS-z2B6Cxvqr7lRheUUeWHYx'}})
 			.then(callback, err);
