@@ -25,16 +25,10 @@ angular.module('app').service('dataServiceYelp', function($http) {
 //	curl -H "Authorization: Bearer RsT5OjbzRn430zqMLgV3Ia" \
 //	https://api.oauth2server.com/1/me
 	
-
 	vm.getYelpAccessToken = function(callback, err) {
 		console.log('reached dataServiceYelp getYelpAccessToken');
 		
-/*		$http.jsonp('//api.yelp.com/v3/autocomplete?text=del&latitude=37.786882&longitude=-122.399972', { 
-	headers: {'Authorization': 'Bearer Xn6rcZrQTdEmV5JFNsTcnot78sESXc7P0-tbBFID8filvrfm49eXACastEejl1avhdE_SgVW0sgosL3gtGF-kMMoGgiiNoBnI0rj7CfPuS-z2B6Cxvqr7lRheUUeWHYx'}})
-			.then(callback, err);
-	};*/
-	 
-		$http({method: 'GET', url: '//api.yelp.com/v3/autocomplete?text=del&latitude=37.786882&longitude=-122.399972', headers: {'Authorization': 'Bearer Xn6rcZrQTdEmV5JFNsTcnot78sESXc7P0-tbBFID8filvrfm49eXACastEejl1avhdE_SgVW0sgosL3gtGF-kMMoGgiiNoBnI0rj7CfPuS-z2B6Cxvqr7lRheUUeWHYx'}})
+		$http({method: 'GET', url: '//api.yelp.com/v3/autocomplete?text=del&latitude=37.786882&longitude=-122.399972', withCredentials: true, headers: {'Authorization': 'Bearer Xn6rcZrQTdEmV5JFNsTcnot78sESXc7P0-tbBFID8filvrfm49eXACastEejl1avhdE_SgVW0sgosL3gtGF-kMMoGgiiNoBnI0rj7CfPuS-z2B6Cxvqr7lRheUUeWHYx'}})
 			.then(callback, err);
 	};
 	
