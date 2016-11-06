@@ -75,7 +75,7 @@ app.get('/vendor/ng-map.min.js', function(req, res) {
 var corsOptions = {
 	"origin": "*",
 	"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-	"allowedHeaders": "Content-Type, Authorization, Content-Length, X-Requested-With",
+	"allowedHeaders": "Content-Type, Authorization, Content-Length, X-Requested-With, X-Custom-Header",
 	"credentials": true,
 	"preflightContinue": true
 };
