@@ -3,7 +3,8 @@
 var express  = require('express');
 var path     = require('path');
 var bodyParser = require("body-parser");	
-var morgan = require('morgan');					// for logging http activity to console
+var morgan   = require('morgan');					// for logging http activity to console
+var cors     = require('cors');
 var mongoose = require('mongoose');
 var seeder   = require('mongoose-seeder');		// for loading database at startup
 var seedData = require('./src/data/data.json');	// database initialization data
@@ -11,6 +12,7 @@ var seedData = require('./src/data/data.json');	// database initialization data
 // routes
 var users = require('./src/routes/users');
 var place = require('./src/routes/place');
+var yelp  = require('./src/routes/yelp');
 
 var app = express();
 
@@ -70,9 +72,18 @@ app.get('/vendor/ng-map.min.js', function(req, res) {
   res.sendFile(path.join(__dirname, 'node_modules', 'ngmap', 'build', 'scripts', 'ng-map.min.js'));
 });
 
+app.options('*', cors(), function(req, res, next) {
+	console.log('reached options cors');
+});
+
+app.get('/api.yelp.com', cors(), function(req, res, next) {
+	console.log('reached /api.yelp.com');
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/users', users);
 app.use('/api/place', place);
+app.use('/api/yelp', yelp);
 
 
 /*********************************/

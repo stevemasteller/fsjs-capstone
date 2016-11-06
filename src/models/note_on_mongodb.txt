@@ -7,6 +7,18 @@ mongo shell
 
 google maps api key: AIzaSyA093hUHMNfOZrtRIFcyWBLJvQESyQUP18 
 
+yelp api key: d8KeA8WtUkeUvTK9GOTIRA
+
+yelp secret: 1ylhinIz2LmfjakzifyzqSW9nfPoFd8B6gelKC3zo8ym1dmkFdquGMkP0daxnqdr
+
+yelp access token: Good until May 2017.
+{
+  "token_type": "Bearer",
+  "access_token": "Xn6rcZrQTdEmV5JFNsTcnot78sESXc7P0-tbBFID8filvrfm49eXACastEejl1avhdE_SgVW0sgosL3gtGF-kMMoGgiiNoBnI0rj7CfPuS-z2B6Cxvqr7lRheUUeWHYx",
+  "expires_in": 15551998
+}
+
+
 Marker JSON
 
 {

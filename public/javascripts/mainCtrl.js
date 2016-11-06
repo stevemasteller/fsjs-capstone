@@ -1,7 +1,7 @@
 (function() {
 'use strict';
 
-angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) {
+angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, dataServiceYelp) {
 	
 	var vm = this;
 	var markers = [];
@@ -232,6 +232,16 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace) 
 			hideButtons();
 		});
 	});
+	
+	// on load
+	console.log('reached mainCtrl on load');
+	dataServiceYelp.getYelpAccessToken( function(res) {
+		console.log('reached mainCtrl getYelpAccessToken');
+	}, function(error) {
+		vm.failure = true;
+		vm.errorMessages = error.data.errors;
+	});
 
 });
+
 })();
