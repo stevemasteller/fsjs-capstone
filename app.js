@@ -72,7 +72,15 @@ app.get('/vendor/ng-map.min.js', function(req, res) {
   res.sendFile(path.join(__dirname, 'node_modules', 'ngmap', 'build', 'scripts', 'ng-map.min.js'));
 });
 
-app.options('*', cors(), function(req, res, next) {
+var corsOptions = {
+	"origin": "*",
+	"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+	"allowedHeaders": "Content-Type, Authorization, Content-Length, X-Requested-With",
+	"credentials": true,
+	"preflightContinue": true
+};
+
+app.options('*', cors(corsOptions), function(req, res, next) {
 	console.log('reached options cors');
 });
 
