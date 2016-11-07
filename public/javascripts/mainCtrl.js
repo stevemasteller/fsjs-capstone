@@ -31,6 +31,21 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 		deletePlace.style.display = "inline-block";
 	};
 	
+	function displayYelpBusiness (data) {
+		console.log('reached displayYelpBusiness');
+	};
+	
+	function getYelpBusiness () {
+		
+		dataServiceYelp.getYelp( selectedMarker , function(res) {
+			console.log('reached mainCtrl getYelp: ' + res);
+			displayYelpBusiness(res);
+		}, function(error) {
+			vm.failure = true;
+			vm.errorMessages = error.data.errors;
+		});
+	};
+	
 	vm.getAll = function() {
 		NgMap.getMap().then( function(map) {
 			
@@ -79,6 +94,9 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 						selectedMarker.position  = this.getPosition();
 						selectedMarker.title = this.getTitle();
 						selectedMarker.icon = this.getIcon();
+						
+						// get the Yelp reviews
+						getYelpBusiness();
 					});
 				}
 				
@@ -215,6 +233,9 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 					selectedMarker.position  = this.getPosition();
 					selectedMarker.title = this.getTitle();
 					selectedMarker.icon = this.getIcon();
+					
+					// get the Yelp reviews
+					getYelpBusiness();
 				});
 		
 				if (place.geometry.viewport) {
@@ -232,16 +253,6 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 			hideButtons();
 		});
 	});
-	
-	// on load
-	console.log('reached mainCtrl on load');
-	dataServiceYelp.getYelpAccessToken( function(res) {
-		console.log('reached mainCtrl getYelpAccessToken');
-	}, function(error) {
-		vm.failure = true;
-		vm.errorMessages = error.data.errors;
-	});
-
 });
 
 })();
