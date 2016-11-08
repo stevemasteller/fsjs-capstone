@@ -26,4 +26,9 @@
 		<button class="button" id="saved-places" ng-click="vm.getAll()">Saved Places</button>
 		<button class="button" id="save-place" ng-click="vm.postPlace()">Save Place</button>
 		<button class="button" id="delete-place" ng-click="vm.deletePlace()">Delete Place</button>
+		
+		<div id="yelp-info">
+			<p>{{vm.name}}  {{vm.price}}  rating: {{vm.rating}}  review count: {{vm.review_count}}  </p>
+			<a href={{vm.url}}>Yelp Reviews</a>
+		</div>
 	</div>

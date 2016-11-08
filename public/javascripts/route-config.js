@@ -8,7 +8,6 @@
 		.config(config);
 
 	function config($routeProvider) {
-		console.log('reached route-config');
 		$routeProvider
 		.when('/', {
 			controller: '',

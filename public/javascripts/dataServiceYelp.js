@@ -5,9 +5,8 @@ angular.module('app').service('dataServiceYelp', function($http) {
 		
 	var vm = this;
 
-	vm.getYelp = function(data, callback, err) {
-		console.log('reached getYelp: ' + data);
-		$http.put('/api/yelp/', data).then(callback, err);
+	vm.getYelp = function(title, lat, lng, callback, err) {
+		$http.get('/api/yelp?title=' + title + '&lat=' + lat + '&lng=' + lng).then(callback, err);
 	};
 });
 

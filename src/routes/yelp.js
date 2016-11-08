@@ -13,16 +13,11 @@ var Place = require("../models/place-model");
 /************************************************************/
 /** /api/yelp
 /************************************************************/
-router.put("/", function(req, res, next) {
-	
-		// get the selected place from the body
-		var selectedPlace = new Place(req.body);
-		
-		console.log('Yelp place: ' + selectedPlace);
-		
-		var title = selectedPlace.title;
-		var lat = selectedPlace.position.lat;
-		var lng = selectedPlace.position.lng;
+router.get("/", function(req, res, next) {
+
+		var title = req.param('title');
+		var lat = req.param('lat');
+		var lng = req.param('lng');
 	
 	    var url = 'https://api.yelp.com/v3/businesses/search?term=' 
 			+ title 
@@ -38,12 +33,13 @@ router.put("/", function(req, res, next) {
 
 	try {
 		
-		request( url, authorization, function (err, res, body) {
+		request( url, authorization, function (err, response, body) {
 				
 			if (err) return next(err);
 			
 			console.log(body) // Show the response from yelp. 
-			res.body;
+			res.status(200);
+			res.send(body);
 		});
 	} catch (e) {
 		console.log('entering the catch block' + e);

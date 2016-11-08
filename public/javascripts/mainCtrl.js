@@ -13,8 +13,8 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 		var savePlace = document.getElementById("save-place");
 		var deletePlace = document.getElementById("delete-place");
 		
-		savePlace.style.display = "none"
-		deletePlace.style.display = "none"
+		savePlace.style.display = "none";
+		deletePlace.style.display = "none";
 	};
 	
 	function displaySaveButton() {
@@ -25,21 +25,57 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 	};
 	
 	function displayDeleteButton() {
-
 		var deletePlace = document.getElementById("delete-place");
 		
 		deletePlace.style.display = "inline-block";
 	};
 	
+	function hideYelpInfo() {
+		var yelpInfo = document.getElementById("yelp-info");
+		
+		yelpInfo.style.display = "none";
+	};
+	
+	function displayYelpInfo() {
+		var yelpInfo = document.getElementById("yelp-info");
+		
+		yelpInfo.style.display = "block";
+	}
+	
 	function displayYelpBusiness (data) {
 		console.log('reached displayYelpBusiness');
+		
+		var total = data.total;
+		var name = "Not available";
+		var rating;
+		var is_closed;
+		var review_count;
+		var price;
+		var url;
+		
+		console.log('total = ' + total);
+		if (total > 0) {
+			displayYelpInfo();
+			
+			vm.name   = data.businesses[0].name;
+			vm.rating = data.businesses[0].rating;
+			vm.is_closed = data.businesses[0].is_closed;
+			vm.review_count = data.businesses[0].review_count;
+			vm.price = data.businesses[0].price;
+			vm.url = data.businesses[0].url;
+		}
 	};
 	
 	function getYelpBusiness () {
 		
-		dataServiceYelp.getYelp( selectedMarker , function(res) {
-			console.log('reached mainCtrl getYelp: ' + res);
-			displayYelpBusiness(res);
+		var title = selectedMarker.title;
+		var lat = selectedMarker.position.lat();
+		var lng = selectedMarker.position.lng();
+		
+		dataServiceYelp.getYelp( title, lat, lng, function(res) {
+			var data = res.data;
+			console.log('reached mainCtrl getYelp: ' + data);
+			displayYelpBusiness(data);
 		}, function(error) {
 			vm.failure = true;
 			vm.errorMessages = error.data.errors;
@@ -104,6 +140,7 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 				
 				// hide unusable buttons
 				hideButtons();
+				hideYelpInfo();
 			});
 		});
 	};
@@ -251,6 +288,7 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 			
 			// hide unusable buttons
 			hideButtons();
+			hideYelpInfo();
 		});
 	});
 });
