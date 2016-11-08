@@ -63,6 +63,8 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 			vm.review_count = data.businesses[0].review_count;
 			vm.price = data.businesses[0].price;
 			vm.url = data.businesses[0].url;
+		} else {
+			hideYelpInfo();
 		}
 	};
 	
