@@ -206,7 +206,21 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 	};
 
 	NgMap.getMap().then( function(map) {
-
+		
+		// get the location 
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition( function (currentPosition) {
+				console.log('lat: ' + currentPosition.coords.latitude);
+				console.log('lng: ' + currentPosition.coords.longitude);
+            var pos = {
+              lat: currentPosition.coords.latitude,
+              lng: currentPosition.coords.longitude
+            };
+            map.setCenter(pos);
+			map.setZoom(12);
+			});
+		}
+ 
 		// Create the search box and link it to the UI element.
 		var input = document.getElementById('searchbox-input');
 		var searchBox = new google.maps.places.SearchBox(input);
@@ -228,7 +242,7 @@ angular.module('app').controller('mainCtrl', function (NgMap, dataServicePlace, 
 	         
 			// Clear out the old markers
 			clearMarkers();
-
+			
 			// For each place, get the icon, name and location.
 			var bounds = new google.maps.LatLngBounds();
 			
