@@ -10,19 +10,9 @@
 	function config($routeProvider) {
 		$routeProvider
 		.when('/', {
-			controller: '',
-			controllerAs: '',
-			templateUrl: 'views/home.html'
-		})
-		.when('/register.html', {
-			controller: 'registerCtrl',
-			controllerAs: 'vm',
-			templateUrl: 'views/register.html'
-		})
-		.when('/main.html', {
 			controller: 'mainCtrl',
-			controllerAs: 'vm',
+			controllerAs: '',
 			templateUrl: 'views/main.html'
-		});
+		})
 	}
 })();

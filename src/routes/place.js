@@ -8,11 +8,7 @@ var createError = require('http-errors');
 var router = express.Router();
 
 // mongoose model
-var User = require("../models/user-model");
 var Place = require("../models/place-model");
-
-var validationErrors = require("./validationErrors");
-var authorization = require("../middleware/authorization");
 
 /************************************************************/
 /** /api/place
@@ -57,7 +53,6 @@ router.post("/", function(req, res, next) {
 
 // Deletes a marker and returns no content
 router.put("/", function(req, res, next) {
-	console.log('reached api/delete');	
 	
 	// create a new place
 	var selectedPlace = new Place(req.body);
